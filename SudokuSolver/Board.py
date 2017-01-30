@@ -18,7 +18,9 @@ class Board:
     def clear(self):
         for r in range(9):
             for c in range(9):
-                self.board[r][c].set_number(0)
+                this_cell = self.board[r][c]
+                this_cell.set_number(0)
+                this_cell.number_idx = -1
 
     # find all possible numbers that could be in a cell without
     # breaking sudoku rules
@@ -81,8 +83,12 @@ class Board:
                 this_cell = self.board[row][col]
                 # print("CELL: ", row, col)
                 if this_cell.get_number() == 0:
-                    # Find the cell's possible numbers
-                    this_cell.possible_numbers = self.__find_possible(row, col)
+
+                    if len(this_cell.possible_numbers) == 0:
+                        # this will be true if it's the first time visiting the cell
+                        # or if we have backtracked and come up back to the cell
+                        # Find the cell's possible numbers
+                        this_cell.possible_numbers = self.__find_possible(row, col)
                     # print("POSSIBLE NUMBERS: ", this_cell.possible_numbers)
                     if this_cell.has_possible_number():
                         # Fit one of the possible numbers
@@ -94,7 +100,10 @@ class Board:
                         col += 1
                     elif len(cells_tried) > 0:
                         # print("BACKTRACKING------------------------------------")
+                        # Reset this_cell so when we come back to it
+                        # we can start new
                         this_cell.number_idx = -1
+                        this_cell.possible_numbers = []
                         # Get the previous cell we fitted
                         prev_cell = cells_tried[-1]
                         # Undo the guess
