@@ -1,5 +1,5 @@
 from tkinter import Canvas, Frame, Button, BOTH, TOP, LEFT, RIGHT, Text, INSERT
-
+import time
 MARGIN = 20  # Pixels around the board
 SIDE = 50  # Width of every board cell.
 WIDTH = HEIGHT = MARGIN * 2 + SIDE * 9  # Width and height of the whole board
@@ -49,7 +49,14 @@ class GUI(Frame):
         pass
 
     def __solve(self):
-        pass
+        global end
+        start = time.time()
+        if self.board.solve():
+            end = time.time()
+            self.__draw_puzzle()
+        else:
+            print("Unsolvable")
+        print(end - start)
 
     def __draw_grid(self):
         for i in range(10):
@@ -92,9 +99,10 @@ class GUI(Frame):
             # if cell was selected already - deselect it
             if (row, col) == (self.row, self.col):
                 self.row, self.col = -1, -1
-            elif self.board.get_number(row, col) == 0:
+            # else set self.row\col to the position we clicked
+            else:
                 self.row, self.col = row, col
-
+        # draw a box using the coordinates we set from click
         self.__draw_cursor()
 
     def __draw_cursor(self):
@@ -112,13 +120,13 @@ class GUI(Frame):
     def __key_pressed(self, event):
         if self.row >= 0 and self.col >= 0 and event.char in "1234567890":
             self.board.set_number(int(event.char), self.row, self.col)
-            if self.col < 8 and self.row < 8:
+            if self.col < 8:
                 self.col += 1
-            elif self.col == 8:
-                self.col = 0
+            elif self.row < 8:
                 self.row += 1
-            elif self.row == 8:
                 self.col = 0
+            else:
                 self.row = 0
+                self.col = 0
             self.__draw_puzzle()
             self.__draw_cursor()
