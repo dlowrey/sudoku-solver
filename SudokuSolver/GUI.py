@@ -15,9 +15,9 @@ class GUI(Frame):
         self.row = 0
         self.col = 0
         self.board = board
-        self.__initUI()
+        self._initUI()
 
-    def __initUI(self):
+    def _initUI(self):
 
         self.parent.title("Sudoku Solver - Copy a 9x9 Sudoku Puzzle and press 'Solve'")
         self.pack(fill=BOTH, expand=1)
@@ -28,37 +28,37 @@ class GUI(Frame):
         clear_button = Button(self,
                               font="Arial",
                               text="Clear",
-                              command=self.__clear)
+                              command=self._clear)
         clear_button.pack(side=LEFT, padx=20, pady=10)
 
         solve_button = Button(self,
                               font="Arial",
                               text="Solve",
-                              command=self.__solve)
+                              command=self._solve)
         solve_button.pack(side=RIGHT, padx=20, pady=10)
 
-        self.__draw_grid()
-        self.__draw_puzzle()
+        self._draw_grid()
+        self._draw_puzzle()
 
-        self.canvas.bind("<Button-1>", self.__cell_clicked)
-        self.canvas.bind("<Key>", self.__key_pressed)
+        self.canvas.bind("<Button-1>", self._cell_clicked)
+        self.canvas.bind("<Key>", self._key_pressed)
 
-    def __clear(self):
-        self.board.clear()
-        self.__draw_puzzle()
+    def _clear(self):
+        self.board._clear()
+        self._draw_puzzle()
         pass
 
-    def __solve(self):
+    def _solve(self):
         global end
         start = time.time()
         if self.board.solve():
             end = time.time()
-            self.__draw_puzzle()
+            self._draw_puzzle()
         else:
             print("Unsolvable")
         print(end - start)
 
-    def __draw_grid(self):
+    def _draw_grid(self):
         for i in range(10):
             color = "blue" if i % 3 == 0 else "gray"
             line_width = 3 if i % 3 == 0 else 0
@@ -74,12 +74,12 @@ class GUI(Frame):
             y1 = MARGIN + i * SIDE
             self.canvas.create_line(x0, y0, x1, y1, fill=color, width=line_width)
 
-    def __draw_puzzle(self):
+    def _draw_puzzle(self):
         self.canvas.delete("numbers")
         for r in range(9):
             for c in range(9):
                 # Get number from actual game board here
-                number = self.board.get_number(r, c)
+                number = self.board._get_number(r, c)
                 if number != 0:
                     x = MARGIN + c * SIDE + SIDE / 2
                     y = MARGIN + r * SIDE + SIDE / 2
@@ -87,7 +87,7 @@ class GUI(Frame):
                         x, y, text=number, tags="numbers"
                     )
 
-    def __cell_clicked(self, event):
+    def _cell_clicked(self, event):
         x = event.x
         y = event.y
         if MARGIN < x < WIDTH - MARGIN and MARGIN < y < HEIGHT - MARGIN:
@@ -103,9 +103,9 @@ class GUI(Frame):
             else:
                 self.row, self.col = row, col
         # draw a box using the coordinates we set from click
-        self.__draw_cursor()
+        self._draw_cursor()
 
-    def __draw_cursor(self):
+    def _draw_cursor(self):
         self.canvas.delete("cursor")
         if self.row >= 0 and self.col >= 0:
             x0 = MARGIN + self.col * SIDE + 1
@@ -117,9 +117,9 @@ class GUI(Frame):
                 outline="red", tags="cursor"
             )
 
-    def __key_pressed(self, event):
+    def _key_pressed(self, event):
         if self.row >= 0 and self.col >= 0 and event.char in "1234567890":
-            self.board.set_number(int(event.char), self.row, self.col)
+            self.board._set_number(int(event.char), self.row, self.col)
             if self.col < 8:
                 self.col += 1
             elif self.row < 8:
@@ -128,5 +128,5 @@ class GUI(Frame):
             else:
                 self.row = 0
                 self.col = 0
-            self.__draw_puzzle()
-            self.__draw_cursor()
+            self._draw_puzzle()
+            self._draw_cursor()

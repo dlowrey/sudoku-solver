@@ -13,19 +13,19 @@ class Cell:
         self.number_idx = -1
 
     # get the number of this cell
-    def get_number(self):
+    def _get_number(self):
         return self.number
 
     # set the number of this cell
-    def set_number(self, number):
+    def _set_number(self, number):
         self.number = number
 
     # check if this cell has a possible number
-    def has_possible_number(self):
+    def _has_possible_number(self):
         return self.number_idx < (len(self.possible_numbers) - 1)
 
     # try the next possible number in this cell
-    def try_next_number(self):
+    def _try_next_number(self):
         self.number_idx += 1
         self.number = self.possible_numbers[self.number_idx]
 
