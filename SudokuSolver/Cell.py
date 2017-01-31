@@ -21,7 +21,7 @@ class Cell:
         self.number = number
 
     # check if this cell has a possible number
-    def _has_possible_number(self):
+    def _has_number_to_try(self):
         return self.number_idx < (len(self.possible_numbers) - 1)
 
     # try the next possible number in this cell

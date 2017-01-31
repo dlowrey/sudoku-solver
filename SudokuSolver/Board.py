@@ -18,9 +18,11 @@ class Board:
     def _clear(self):
         for r in range(9):
             for c in range(9):
+                # Complete reset of each cell on board
                 this_cell = self.board[r][c]
                 this_cell._set_number(0)
                 this_cell.number_idx = -1
+                this_cell.possible_numbers = []
 
     # find all possible numbers that could be in a cell without
     # breaking sudoku rules
@@ -85,22 +87,22 @@ class Board:
                 if this_cell._get_number() == 0:
 
                     if len(this_cell.possible_numbers) == 0:
+                        # print("POSSIBLE NUMBERS WAS EMPTY")
                         # this will be true if it's the first time visiting the cell
-                        # or if we have backtracked and come up back to the cell
+                        # or if we have backtracked previously and now have come up back to the cell we backtracked from
                         # Find the cell's possible numbers
                         this_cell.possible_numbers = self._find_possible(row, col)
                     # print("POSSIBLE NUMBERS: ", this_cell.possible_numbers)
 
 
-                    if this_cell._has_possible_number():
+                    if this_cell._has_number_to_try():
                         # Fit one of the possible numbers
                         this_cell._try_next_number()
-                        # print(this_cell.get_number(), " WORKED!")
+                        # print(this_cell._get_number(), " WORKED!")
                         # Add cell to cells_tried
                         cells_tried.append(this_cell)
                         # advance
                         col += 1
-
                     elif len(cells_tried) > 0:
                         # print("BACKTRACKING------------------------------------")
                         # Reset this cell as if we have never touched it
