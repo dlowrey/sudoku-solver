@@ -43,6 +43,7 @@ class GUI(Frame):
         self.canvas.bind("<Button-1>", self._cell_clicked)
         self.canvas.bind("<Key>", self._key_pressed)
 
+
     def _clear(self):
         self.board._clear()
         self._draw_puzzle()
@@ -118,15 +119,41 @@ class GUI(Frame):
             )
 
     def _key_pressed(self, event):
-        if self.row >= 0 and self.col >= 0 and event.char in "1234567890":
-            self.board._set_number(int(event.char), self.row, self.col)
-            if self.col < 8:
-                self.col += 1
-            elif self.row < 8:
+        # if self.row >= 0 and self.col >= 0 and event.char in "123456789":
+        #     self.board._set_number(int(event.char), self.row, self.col)
+        #     if self.col < 8:
+        #         self.col += 1
+        #     elif self.row < 8:
+        #         self.row += 1
+        #         self.col = 0
+        #     else:
+        #         self.row = 0
+        #         self.col = 0
+        #     self._draw_puzzle()
+        #     self._draw_cursor()
+
+        if self.row >= 0 and self.col >=0:
+            if event.keysym == "Up" and self.row > 0:
+                self.row -= 1
+            if event.keysym == "Down" and self.row < 8:
                 self.row += 1
-                self.col = 0
-            else:
-                self.row = 0
-                self.col = 0
-            self._draw_puzzle()
-            self._draw_cursor()
+            if event.keysym == "Right" and self.col < 8:
+                self.col +=1
+            if event.keysym == "Left" and self.col > 0:
+                self.col -= 1
+            if event.char in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                self.board.set_number(int(event.char), self.row, self.col)
+                if self.col < 8:
+                    self.col +=1
+                elif self.row < 8:
+                    self.col = 0
+                    self.row += 1
+                else:
+                    self.col = 0
+                    self.row = 0
+            if event.keysym in ["Delete", "BackSpace"]:
+                self.board.set_number(0, self.row, self.col)
+
+        self._draw_puzzle()
+        self._draw_cursor()
+

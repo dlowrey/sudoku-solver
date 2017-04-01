@@ -17,7 +17,7 @@ class Cell:
         return self.number
 
     # set the number of this cell
-    def _set_number(self, number):
+    def set_number(self, number):
         self.number = number
 
     # check if this cell has a possible number

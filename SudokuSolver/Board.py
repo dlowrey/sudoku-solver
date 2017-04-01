@@ -6,11 +6,11 @@ class Board:
         # fill a 9x9 matrix with empty cells
         self.board = [[Cell.Cell(r, c) for c in range(9)] for r in range(9)]
 
-    # set a cell's number (used in GUI because Board.py object cannot be indexed)
-    def _set_number(self, number, row, col):
-        self.board[row][col]._set_number(number)
+    # set a cell's number(used in GUI because Board.py object cannot be indexed)
+    def set_number(self, number, row, col):
+        self.board[row][col].set_number(number)
 
-    # get a cell's number (used in GUI because Board.py object cannot be indexed)
+    # get a cell's number(used in GUI because Board.py object cannot be indexed)
     def _get_number(self, row, col):
         return self.board[row][col]._get_number()
 
@@ -20,7 +20,7 @@ class Board:
             for c in range(9):
                 # Complete reset of each cell on board
                 this_cell = self.board[r][c]
-                this_cell._set_number(0)
+                this_cell.set_number(0)
                 this_cell.number_idx = -1
                 this_cell.possible_numbers = []
 
@@ -111,7 +111,7 @@ class Board:
                         # Get the previous cell we fitted
                         prev_cell = cells_tried[-1]
                         # Undo its guess
-                        prev_cell._set_number(0)
+                        prev_cell.set_number(0)
                         # Remove it from cells_tried
                         cells_tried.remove(prev_cell)
                         # print("PREVIOUS CELL: ", prev_cell.row, prev_cell.col)
