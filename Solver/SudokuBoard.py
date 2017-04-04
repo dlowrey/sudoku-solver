@@ -84,10 +84,8 @@ class SudokuBoard(object):
         return True
 
     def solve(self):
-
         if not self.validate_board():
             return False
-
         cells_tried = []
         row = 0
         while row < 9:
@@ -138,7 +136,8 @@ class SudokuBoard(object):
         return res
 
     def save_to_file(self):
-        file = open('sudoku-solution.txt', 'w')
+        file_name = input("What would you like to name the file?: ")
+        file = open(os.path.join('SudokuFiles', file_name + '.txt'), 'w')
         res = ""
         for r in range(9):
             for c in range(9):
