@@ -34,7 +34,7 @@ class SudokuBoard(object):
                     effected_cells.add(self.get_cell(r, c).get_number())
 
         # Return a list of numbers that are not in `effected_cells`
-        return valid - effected_cells
+        return list(valid - effected_cells)
 
 
     def solve(self):
@@ -44,10 +44,13 @@ class SudokuBoard(object):
             column = 0
             while column < 9:
                 cell = self.get_cell(row, column)
+
                 # Check if cell needs filled
                 if not cell.has_number():
+
                     # Find it's possible numbers
-                    cell.set_possible_numbers(
+                    if not cell.get_possible_numbers():
+                        cell.set_possible_numbers(
                             self.find_possible_cell_numbers(cell))
 
                     if cell.get_possible_numbers():
@@ -69,8 +72,9 @@ class SudokuBoard(object):
                     else:
                         return False
                 else:
-
                     column += 1
+                print(cell)
+
             row += 1
         return True
 
