@@ -77,7 +77,6 @@ class GUI(Frame):
             self.draw_puzzle()
         else:
             self.parent.title("Sudoku Solver - PUZZLE INVALID OR UNSOLVABLE")
-        print(end - start)
 
     def draw_grid(self):
         for i in range(10):
