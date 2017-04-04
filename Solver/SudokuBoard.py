@@ -1,10 +1,13 @@
 from Solver.Cell import Cell
 import os
-class SudokuBoard(object):
+import numpy
 
+
+class SudokuBoard(object):
     def __init__(self):
         # Make a 9x9 matrix of Cell objects
-        self.game_board = [[Cell(row, column) for column in range(9)] for row in range(9)]
+        self.game_board = [[Cell(row, column) for column in range(9)] for row in
+                           range(9)]
 
     def get_cell(self, row, column):
         return self.game_board[row][column]
@@ -32,6 +35,7 @@ class SudokuBoard(object):
                 effected_cells.add(self.get_cell(x, column).get_number())
             if x != column:
                 effected_cells.add(self.get_cell(row, x).get_number())
+
         # Find numbers existing in this cell's effected box
         for r in range(row - (row % 3), row + (3 - (row % 3))):
             for c in range(column - (column % 3), column + (3 - (column % 3))):
@@ -41,7 +45,49 @@ class SudokuBoard(object):
         # Return a list of numbers that are not in `effected_cells`
         return valid - effected_cells
 
+    def validate_board(self):
+
+        # Check all rows and columns
+        row_numbers = []
+        column_numbers = []
+        box_numbers = []
+        for row in range(9):
+            for column in range(9):
+                # Gather row and column
+                row_num = self.get_cell(row, column).get_number()
+                col_num = self.get_cell(column, row).get_number()
+                if row_num != 0:
+                    row_numbers.append(row_num)
+                if col_num != 0:
+                    column_numbers.append(col_num)
+
+                # Check all boxes
+                for r in range(row - (row % 3), row + (3 - (row % 3))):
+                    for c in range(column - (column % 3),
+                                   column + (3 - (column % 3))):
+                        box_num = self.get_cell(r, c).get_number()
+                        if box_num != 0:
+                            box_numbers.append(box_num)
+                if len(set(box_numbers)) != len(box_numbers):
+                    return False
+                else:
+                    box_numbers.clear()
+            # Check row and column
+            if len(set(row_numbers)) != len(row_numbers):
+                return False
+            elif len(set(column_numbers)) != len(column_numbers):
+                return False
+            else:
+                row_numbers.clear()
+                column_numbers.clear()
+
+        return True
+
     def solve(self):
+
+        if not self.validate_board():
+            return False
+
         cells_tried = []
         row = 0
         while row < 9:
@@ -59,6 +105,7 @@ class SudokuBoard(object):
                             self.find_possible_cell_numbers(cell))
 
                     if cell.get_possible_numbers():
+
                         cell.try_number()
                         cells_tried.append(cell)
                         column += 1
@@ -81,14 +128,12 @@ class SudokuBoard(object):
             row += 1
         return True
 
-
-
     def __str__(self):
         res = ""
         for r in range(9):
             res += '\n'
             for c in range(9):
-                res += str(self.get_cell(r,c).get_number())
+                res += str(self.get_cell(r, c).get_number())
                 res += ' '
         return res
 
@@ -97,7 +142,7 @@ class SudokuBoard(object):
         res = ""
         for r in range(9):
             for c in range(9):
-                res += str(self.get_cell(r,c).get_number())
+                res += str(self.get_cell(r, c).get_number())
         file.write(res)
         file.close()
 
@@ -112,16 +157,3 @@ class SudokuBoard(object):
             col = pos % 9
             if num.isdigit():
                 self.get_cell(row, col).set_number(int(num))
-
-
-
-
-
-
-
-
-
-
-
-
-

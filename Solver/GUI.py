@@ -56,11 +56,12 @@ class GUI(Frame):
         self.canvas.bind("<Button-1>", self.cell_clicked)
         self.canvas.bind("<Key>", self.key_pressed)
 
-
     def load_board(self):
-        pass
+        self.board.load_from_file()
+        self.draw_puzzle()
+
     def save_board(self):
-        pass
+        self.board.save_to_file()
 
     def clear(self):
         self.board.clear_board()
