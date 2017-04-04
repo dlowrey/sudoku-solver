@@ -43,17 +43,16 @@ class GUI(Frame):
         self.canvas.bind("<Button-1>", self._cell_clicked)
         self.canvas.bind("<Key>", self._key_pressed)
 
-
     def _clear(self):
         self.board._clear()
         self._draw_puzzle()
         pass
 
     def _solve(self):
-        global end
         start = time.time()
-        if self.board.solve():
-            end = time.time()
+        solved = self.board.solve()
+        end = time.time()
+        if solved:
             self._draw_puzzle()
         else:
             print("Unsolvable")
