@@ -57,7 +57,7 @@ class SudokuBoard(object):
                     if not cell.get_possible_numbers() and not cell.is_exhausted():
                         cell.set_possible_numbers(
                             self.find_possible_cell_numbers(cell))
-                
+
                     if cell.get_possible_numbers():
                         cell.try_number()
                         cells_tried.append(cell)
