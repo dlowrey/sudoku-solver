@@ -15,6 +15,11 @@ class SudokuBoard(object):
                 self.get_cell(row, column).reset_cell()
 
     def find_possible_cell_numbers(self, cell):
+        """Get ALL possible numbers that can go in the current cell
+
+        :arg cell: the current cell to get possible numbers for
+        :return a set of possible numbers for the passed cell
+        """
 
         row = cell.get_row()
         column = cell.get_column()
@@ -34,8 +39,7 @@ class SudokuBoard(object):
                     effected_cells.add(self.get_cell(r, c).get_number())
 
         # Return a list of numbers that are not in `effected_cells`
-        return list(valid - effected_cells)
-
+        return valid - effected_cells
 
     def solve(self):
         cells_tried = []
@@ -48,11 +52,12 @@ class SudokuBoard(object):
                 # Check if cell needs filled
                 if not cell.has_number():
 
-                    # Find it's possible numbers
-                    if not cell.get_possible_numbers():
+                    # Find it's possible numbers if it has none
+                    #  and it has not tried all of them
+                    if not cell.get_possible_numbers() and not cell.is_exhausted():
                         cell.set_possible_numbers(
                             self.find_possible_cell_numbers(cell))
-
+                
                     if cell.get_possible_numbers():
                         cell.try_number()
                         cells_tried.append(cell)
@@ -73,8 +78,6 @@ class SudokuBoard(object):
                         return False
                 else:
                     column += 1
-                print(cell)
-
             row += 1
         return True
 
