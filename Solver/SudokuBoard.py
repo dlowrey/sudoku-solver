@@ -10,9 +10,11 @@ class SudokuBoard(object):
                            range(9)]
 
     def get_cell(self, row, column):
+        """Get a specific cell on the board"""
         return self.game_board[row][column]
 
     def clear_board(self):
+        """Clear the contents of the board"""
         for row in range(9):
             for column in range(9):
                 self.get_cell(row, column).reset_cell()
@@ -61,17 +63,18 @@ class SudokuBoard(object):
                 if col_num != 0:
                     column_numbers.append(col_num)
 
-                # Check all boxes
-                for r in range(row - (row % 3), row + (3 - (row % 3))):
-                    for c in range(column - (column % 3),
-                                   column + (3 - (column % 3))):
-                        box_num = self.get_cell(r, c).get_number()
-                        if box_num != 0:
-                            box_numbers.append(box_num)
-                if len(set(box_numbers)) != len(box_numbers):
-                    return False
-                else:
-                    box_numbers.clear()
+                # Check all boxes, only if in first column of box
+                if column in [0, 3, 6]:
+                    for r in range(row - (row % 3), row + (3 - (row % 3))):
+                        for c in range(column - (column % 3),
+                                       column + (3 - (column % 3))):
+                            box_num = self.get_cell(r, c).get_number()
+                            if box_num != 0:
+                                box_numbers.append(box_num)
+                    if len(set(box_numbers)) != len(box_numbers):
+                        return False
+                    else:
+                        box_numbers.clear()
             # Check row and column
             if len(set(row_numbers)) != len(row_numbers):
                 return False
