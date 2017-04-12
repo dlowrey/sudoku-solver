@@ -1,6 +1,5 @@
 from Solver.Cell import Cell
 import os
-import numpy
 
 
 class SudokuBoard(object):
