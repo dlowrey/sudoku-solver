@@ -158,7 +158,7 @@ class GUI(Frame):
                     self.col = 0
                     self.row = 0
             if event.keysym in ["Delete", "BackSpace"]:
-                self.board.get_cell(self.row, self.col).set_number(0)
+                self.board.get_cell(self.row, self.col).reset_cell()
 
         self.draw_puzzle()
         self.draw_cursor()
