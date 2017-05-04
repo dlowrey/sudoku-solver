@@ -39,8 +39,7 @@ class SudokuBoard(object):
         # Find numbers existing in this cell's effected box
         for r in range(row - (row % 3), row + (3 - (row % 3))):
             for c in range(column - (column % 3), column + (3 - (column % 3))):
-                if c != column and r != row:
-                    existing_numbers.add(self.get_cell(r, c).get_number())
+                existing_numbers.add(self.get_cell(r, c).get_number())
 
         # set the cells possible numbers to
         #  numbers that are not in `effected_cells`
@@ -48,42 +47,39 @@ class SudokuBoard(object):
 
     def validate_board(self):
 
-        # Check all rows and columns
-        row_numbers = []
-        column_numbers = []
-        box_numbers = []
-        for row in range(9):
-            for column in range(9):
-                # Gather row and column
-                row_num = self.get_cell(row, column).get_number()
-                col_num = self.get_cell(column, row).get_number()
-                if row_num != 0:
-                    row_numbers.append(row_num)
-                if col_num != 0:
-                    column_numbers.append(col_num)
+        row_list = []
+        column_list = []
+        box_list = []
 
-                # Check all boxes, only if in first column of box
-                if column in [0, 3, 6]:
-                    for r in range(row - (row % 3), row + (3 - (row % 3))):
-                        for c in range(column - (column % 3),
-                                       column + (3 - (column % 3))):
-                            box_num = self.get_cell(r, c).get_number()
-                            if box_num != 0:
-                                box_numbers.append(box_num)
-                    if len(set(box_numbers)) != len(box_numbers):
-                        return False
-                    else:
-                        box_numbers.clear()
-            # Check row and column
-            if len(set(row_numbers)) != len(row_numbers):
-                return False
-            elif len(set(column_numbers)) != len(column_numbers):
-                return False
-            else:
-                row_numbers.clear()
-                column_numbers.clear()
+        for r in range(9):
+            for c in range(9):
+                row_number = self.get_cell(r, c).get_number()
+                col_number = self.get_cell(c, r).get_number()
+                if row_number != 0:
+                    row_list.append(row_number)
+                if col_number != 0:
+                    column_list.append(col_number)
 
+            if len(row_list) != len(set(row_list)):
+                return False
+            if len(column_list) != len(set(column_list)):
+                return False
+
+        for row in range(0, 9, 3):
+            for column in range(0, 9, 3):
+                for r in range(row - (row % 3), row + (3 - (row % 3))):
+                    for c in range(column - (column % 3),
+                                   column + (3 - (column % 3))):
+                        number = self.get_cell(r, c).get_number()
+                        if number != 0:
+                            box_list.append(number)
+
+                if len(box_list) != len(set(box_list)):
+                    return False
         return True
+
+
+
 
     def solve(self):
         # If board is not valid, it cannot be solved
