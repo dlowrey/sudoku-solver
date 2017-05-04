@@ -23,7 +23,7 @@ class SudokuBoard(object):
 
         row = cell.get_row()
         column = cell.get_column()
-        effected_cells = set()
+        existing_numbers = set()
         valid = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
         # Find numbers existing in this cell's effected column and row
@@ -32,8 +32,9 @@ class SudokuBoard(object):
         # Find numbers existing in this cell's effected box
 
 
-        # Return a list of numbers that are not in `effected_cells`
-        return valid - effected_cells
+        # Set the cells possible numbers to 
+        # nmbers that are not in existing_numbers
+        cell.set_possible_numbers(valid - existing_numbers)
 
     def validate_board(self):
 
@@ -63,24 +64,3 @@ class SudokuBoard(object):
                 res += str(self.get_cell(r, c).get_number())
                 res += ' '
         return res
-
-    def save_to_file(self):
-        file_name = input("What would you like to name the file?: ")
-        file = open(os.path.join('SudokuFiles', file_name + '.txt'), 'w')
-        res = ""
-        for r in range(9):
-            for c in range(9):
-                res += str(self.get_cell(r, c).get_number())
-        file.write(res)
-        file.close()
-
-    def load_from_file(self):
-        file_path = input("Please input the path to your file: ")
-        file = open(os.path.join(file_path), 'r')
-        number_line = file.read()
-        file.close()
-        for pos, num in enumerate(number_line):
-            row = pos // 9
-            col = pos % 9
-            if num.isdigit():
-                self.get_cell(row, col).set_number(int(num))
