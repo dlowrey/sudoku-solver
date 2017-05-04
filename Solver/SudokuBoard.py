@@ -27,24 +27,24 @@ class SudokuBoard(object):
 
         row = cell.get_row()
         column = cell.get_column()
-        effected_cells = set()
+        existing_numbers = set()
         valid = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
         # Find numbers existing in this cell's effected column and row
         for x in range(9):
             if x != row:
-                effected_cells.add(self.get_cell(x, column).get_number())
+                existing_numbers.add(self.get_cell(x, column).get_number())
             if x != column:
-                effected_cells.add(self.get_cell(row, x).get_number())
+                existing_numbers.add(self.get_cell(row, x).get_number())
 
         # Find numbers existing in this cell's effected box
         for r in range(row - (row % 3), row + (3 - (row % 3))):
             for c in range(column - (column % 3), column + (3 - (column % 3))):
                 if c != column and r != row:
-                    effected_cells.add(self.get_cell(r, c).get_number())
+                    existing_numbers.add(self.get_cell(r, c).get_number())
 
         # Return a list of numbers that are not in `effected_cells`
-        return valid - effected_cells
+        return valid - existing_numbers
 
     def validate_board(self):
 
