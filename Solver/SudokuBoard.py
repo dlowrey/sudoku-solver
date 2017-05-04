@@ -43,8 +43,9 @@ class SudokuBoard(object):
                 if c != column and r != row:
                     existing_numbers.add(self.get_cell(r, c).get_number())
 
-        # Return a list of numbers that are not in `effected_cells`
-        return valid - existing_numbers
+        # set the cells possible numbers to
+        #  numbers that are not in `effected_cells`
+        cell.set_possible_numbers(valid - existing_numbers)
 
     def validate_board(self):
 
@@ -103,8 +104,7 @@ class SudokuBoard(object):
                     # Find it's possible numbers if it has none
                     #  and it has not tried all of them
                     if not cell.get_possible_numbers() and not cell.is_exhausted():
-                        cell.set_possible_numbers(
-                            self.find_possible_cell_numbers(cell))
+                        self.find_possible_cell_numbers(cell)
 
                     if cell.get_possible_numbers():
 
