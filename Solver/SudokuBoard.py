@@ -107,10 +107,13 @@ class SudokuBoard(object):
                         self.find_possible_cell_numbers(cell)
 
                     if cell.get_possible_numbers():
-
+                        # Try the cell's next number
                         cell.try_number()
+                        # add the cell to the list of cells we have tried
                         cells_tried.append(cell)
+                        # set loop to next cell
                         column += 1
+
                     elif cells_tried:
                         # Start over with this cell
                         cell.reset_cell()
