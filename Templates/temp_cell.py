@@ -7,7 +7,7 @@ class Cell(object):
         # Variable to hold cell's number (initialize to 0)
 
         # Boolean flag for if all numbers have been tried in cell (init False)
-    
+
         # Variable to hold the set of all possible numbers (init empty)
 
     def get_row(self):
