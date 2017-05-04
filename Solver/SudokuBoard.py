@@ -32,10 +32,9 @@ class SudokuBoard(object):
 
         # Find numbers existing in this cell's effected column and row
         for x in range(9):
-            if x != row:
-                existing_numbers.add(self.get_cell(x, column).get_number())
-            if x != column:
-                existing_numbers.add(self.get_cell(row, x).get_number())
+            existing_numbers.add(self.get_cell(x, column).get_number())
+            existing_numbers.add(self.get_cell(row, x).get_number())
+
 
         # Find numbers existing in this cell's effected box
         for r in range(row - (row % 3), row + (3 - (row % 3))):
