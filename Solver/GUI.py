@@ -38,18 +38,6 @@ class GUI(Frame):
                               command=self.solve)
         solve_button.pack(side=RIGHT)
 
-        load_button = Button(self,
-                             font="Arial",
-                             text="Load Board",
-                             command=self.load_board)
-        load_button.pack(side=LEFT)
-
-        save_button = Button(self,
-                             font="Arial",
-                             text="Save Board",
-                             command=self.save_board)
-        save_button.pack(side=LEFT)
-
         self.draw_grid()
         self.draw_puzzle()
 

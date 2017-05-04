@@ -1,15 +1,14 @@
 class Cell(object):
     def __init__(self, row, column):
         # Variable to hold the cell's row (initialize to row)
-        self.row = row
+
         # Variable to hold the cell's column (initialize to column)
-        self.column = column
+
         # Variable to hold cell's number (initialize to 0)
-        self.number = 0
+
         # Boolean flag for if all numbers have been tried in cell (init False)
-        self.exhausted = False
+    
         # Variable to hold the set of all possible numbers (init empty)
-        self.possible_numbers = set()
 
     def get_row(self):
         """Returns the row of the cell"""

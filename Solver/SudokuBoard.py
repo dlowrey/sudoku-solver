@@ -86,8 +86,10 @@ class SudokuBoard(object):
         return True
 
     def solve(self):
+        # If board is not valid, it cannot be solved
         if not self.validate_board():
             return False
+
         cells_tried = []
         row = 0
         while row < 9:
@@ -136,25 +138,3 @@ class SudokuBoard(object):
                 res += str(self.get_cell(r, c).get_number())
                 res += ' '
         return res
-
-    def save_to_file(self):
-        file_name = input("What would you like to name the file?: ")
-        file = open(os.path.join('SudokuFiles', file_name + '.txt'), 'w')
-        res = ""
-        for r in range(9):
-            for c in range(9):
-                res += str(self.get_cell(r, c).get_number())
-        file.write(res)
-        file.close()
-
-    def load_from_file(self):
-        file_path = input("Please input the path to your file: ")
-        file = open(os.path.join(file_path), 'r')
-        number_line = file.read()
-        file.close()
-
-        for pos, num in enumerate(number_line):
-            row = pos // 9
-            col = pos % 9
-            if num.isdigit():
-                self.get_cell(row, col).set_number(int(num))
