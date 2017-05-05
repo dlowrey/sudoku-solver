@@ -118,6 +118,8 @@ class GUI(Frame):
                 outline="red", tags="cursor"
             )
 
+    # NOTE: if your key presses arent working, you may need to change
+    # something in here
     def key_pressed(self, event):
         if self.row >= 0 and self.col >=0:
             if event.keysym == "Up" and self.row > 0:

@@ -40,7 +40,7 @@ class SudokuBoard(object):
 
         # Check all rows and columns
         # Return false if violations are found
-
+        # Your code here
         return True
 
     def solve(self):
@@ -53,6 +53,8 @@ class SudokuBoard(object):
 
         if not self.validate_board():
             return False
+
+        # your code here
 
         return True
 

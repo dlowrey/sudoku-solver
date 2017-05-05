@@ -8,6 +8,14 @@ class SudokuBoard(object):
         self.game_board = [[Cell(row, column) for column in range(9)] for row in
                            range(9)]
 
+        # self.game_board = []
+        # for r in range (9):
+        #     row = []
+        #     for c in range(9):
+        #         x = Cell(r,c)
+        #         row.append(x)
+        #     self.game_board.append(row)
+
     def get_cell(self, row, column):
         """Get a specific cell on the board"""
         return self.game_board[row][column]
@@ -34,7 +42,6 @@ class SudokuBoard(object):
         for x in range(9):
             existing_numbers.add(self.get_cell(x, column).get_number())
             existing_numbers.add(self.get_cell(row, x).get_number())
-
 
         # Find numbers existing in this cell's effected box
         for r in range(row - (row % 3), row + (3 - (row % 3))):
@@ -76,9 +83,6 @@ class SudokuBoard(object):
                 if len(box_list) != len(set(box_list)): # use set to get unique
                     return False
         return True
-
-
-
 
     def solve(self):
         # If board is not valid, it cannot be solved
