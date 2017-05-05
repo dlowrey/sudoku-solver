@@ -1,7 +1,7 @@
 class Cell(object):
     def __init__(self, row, column):
         # Variable to hold the cell's row (initialize to row)
-
+        self.row = row
         # Variable to hold the cell's column (initialize to column)
 
         # Variable to hold cell's number (initialize to 0)
