@@ -47,11 +47,9 @@ class SudokuBoard(object):
 
     def validate_board(self):
 
-        row_list = []
-        column_list = []
-        box_list = []
-
         for r in range(9):
+            row_list = []
+            column_list = []
             for c in range(9):
                 row_number = self.get_cell(r, c).get_number()
                 col_number = self.get_cell(c, r).get_number()
@@ -61,12 +59,15 @@ class SudokuBoard(object):
                     column_list.append(col_number)
 
             if len(row_list) != len(set(row_list)):
+                print("Row")
                 return False
             if len(column_list) != len(set(column_list)):
+                print("Col")
                 return False
 
         for row in range(0, 9, 3):
             for column in range(0, 9, 3):
+                box_list = []
                 for r in range(row - (row % 3), row + (3 - (row % 3))):
                     for c in range(column - (column % 3),
                                    column + (3 - (column % 3))):
@@ -75,6 +76,7 @@ class SudokuBoard(object):
                             box_list.append(number)
 
                 if len(box_list) != len(set(box_list)):
+                    print("Box")
                     return False
         return True
 
