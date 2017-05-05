@@ -48,35 +48,32 @@ class SudokuBoard(object):
     def validate_board(self):
 
         for r in range(9):
-            row_list = []
+            row_list = [] # initialize lists to hold numbers we find
             column_list = []
             for c in range(9):
-                row_number = self.get_cell(r, c).get_number()
-                col_number = self.get_cell(c, r).get_number()
-                if row_number != 0:
+                row_number = self.get_cell(r, c).get_number() # get row number
+                col_number = self.get_cell(c, r).get_number() # get col number
+                if row_number != 0: # if nonzero, add to list
                     row_list.append(row_number)
                 if col_number != 0:
                     column_list.append(col_number)
 
-            if len(row_list) != len(set(row_list)):
-                print("Row")
-                return False
+            if len(row_list) != len(set(row_list)): # use set to get unique nums
+                return False # duplicates found in list
             if len(column_list) != len(set(column_list)):
-                print("Col")
                 return False
 
-        for row in range(0, 9, 3):
+        for row in range(0, 9, 3): # find box numbers
             for column in range(0, 9, 3):
-                box_list = []
+                box_list = [] # initialize empty list to hold numbers we find
                 for r in range(row - (row % 3), row + (3 - (row % 3))):
                     for c in range(column - (column % 3),
                                    column + (3 - (column % 3))):
                         number = self.get_cell(r, c).get_number()
-                        if number != 0:
+                        if number != 0: # add nonzero numbers to list
                             box_list.append(number)
 
-                if len(box_list) != len(set(box_list)):
-                    print("Box")
+                if len(box_list) != len(set(box_list)): # use set to get unique
                     return False
         return True
 
