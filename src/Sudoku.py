@@ -1,5 +1,4 @@
 class Cell(object):
-
     def __init__(self, row, column):
         self.row = row
         self.column = column
@@ -14,6 +13,9 @@ class Board(object):
 
     def __init__(self):
         self.board = [[0 for i in range(9)] for i in range(9)]  # 9x9 empty
+
+    def __flatten(self, matrix):
+        return [item for sublist in matrix for item in sublist]
 
     def __difference(self, numbers):
         return list(set(numbers) - set(i for i in range(9)))
@@ -37,8 +39,8 @@ class Board(object):
     def __get_square(self, row, column):
         square = [
             self.board[r][c]
-            for r in range(row * 3, (row + 1) * 3)
-            for c in range(column * 3, (column + 1) * 3)
+            for r in range(row - (row % 3), row + (3 - (row % 3)))
+            for c in range(column - (column % 3), column + (3 - (column % 3)))
         ]
         return square
 
@@ -49,14 +51,16 @@ class Board(object):
                 for r in range(9)]
         squares = [
             self.__validate(self.__get_square(row, column))
-            for row in range(3)
-            for column in range(3)
+            for row in range(0, 9, 3)
+            for column in range(0, 9, 3)
         ]
-        valid = False if False in columns + rows + squares else True
-        return valid
+        return all(self.__flatten(columns + rows + squares))
 
     def potential_numbers(self, r, c):
-        column = self.__difference(self.board[r][c])
+        row = self.__get_row(r)
+        column = self.__get_column(c)
+        square = self.__get_square(r, c)
+        return self.__difference(row + column + square)
 
     def solve(self):
         if self.is_valid():
@@ -65,4 +69,3 @@ class Board(object):
                 current_column = 0
                 while current_column < 9:
                     pass
-
