@@ -6,6 +6,8 @@ WIDTH = HEIGHT = MARGIN * 2 + SIDE * 9  # Width and height of the whole board
 
 
 class GUI(Frame):
+
+
     def __init__(self, parent, board):
         self.parent = parent
 
@@ -47,7 +49,6 @@ class GUI(Frame):
     def clear(self):
         self.board.clear_board()
         self.draw_puzzle()
-        pass
 
     def solve(self):
         start = time.time()
@@ -145,4 +146,3 @@ class GUI(Frame):
 
         self.draw_puzzle()
         self.draw_cursor()
-

@@ -75,11 +75,11 @@ class Cell(object):
     def __str__(self):
         return "Cell [{}][{}]\n" \
                "Possible: {}\n" \
-               "Exhausted: {}\n"\
+               "Exhausted: {}\n" \
                "Number: {}\n\n".format(
-                self.row,
-                self.column,
-                self.possible_numbers,
-                self.exhausted,
-                self.number
+            self.row,
+            self.column,
+            self.possible_numbers,
+            self.exhausted,
+            self.number
         )

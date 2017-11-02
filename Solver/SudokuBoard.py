@@ -5,16 +5,16 @@ import os
 class SudokuBoard(object):
     def __init__(self):
         # Make a 9x9 matrix of Cell objects
-        self.game_board = [[Cell(row, column) for column in range(9)] for row in
-                           range(9)]
+        # self.game_board = [[Cell(row, column) for column in range(9)] for row in
+        #                    range(9)]
 
-        # self.game_board = []
-        # for r in range (9):
-        #     row = []
-        #     for c in range(9):
-        #         x = Cell(r,c)
-        #         row.append(x)
-        #     self.game_board.append(row)
+        self.game_board = []
+        for r in range (9):
+            row = []
+            for c in range(9):
+                x = Cell(r,c)
+                row.append(x)
+            self.game_board.append(row)
 
     def get_cell(self, row, column):
         """Get a specific cell on the board"""
