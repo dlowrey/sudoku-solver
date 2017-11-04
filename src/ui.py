@@ -128,13 +128,13 @@ class SudokuUI(Frame):
     def __key_pressed(self, event):
         """Catch all key press events and handle them"""
         if self.row >= 0 and self.col >= 0:
-            if event.keysym == "Up":
+            if event.keysym in ["Up", "w"]:
                 self.row = abs(((self.row + 8) % 9))
-            elif event.keysym == "Down":
+            elif event.keysym in ["Down", "Return", "s"]:
                 self.row = abs(((self.row + 10) % 9))
-            elif event.keysym == "Right":
+            elif event.keysym in ["Right", "d"]:
                 self.col = abs(((self.col + 10) % 9))
-            elif event.keysym == "Left":
+            elif event.keysym in ["Left", "a"]:
                 self.col = abs(((self.col + 8) % 9))
             elif event.keysym in ["Delete", "BackSpace"]:
                 self.sudoku.board[self.row][self.col].reset()
