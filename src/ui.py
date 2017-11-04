@@ -126,6 +126,7 @@ class SudokuUI(Frame):
         self.__draw_cursor()
 
     def __key_pressed(self, event):
+        """Catch all key press events and handle them"""
         if self.row >= 0 and self.col >= 0:
             if event.keysym == "Up":
                 self.row = abs(((self.row + 8) % 9))
@@ -147,6 +148,7 @@ class SudokuUI(Frame):
             self.__draw_cursor()
 
     def __go_next(self):
+        """Advance to the next cell"""
         row = self.row
         col = self.col
         if col < 8:
