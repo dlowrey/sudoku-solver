@@ -120,7 +120,8 @@ class Board(object):
     def solve(self):
         """
         Solve a 9x9 Sudoku Puzzle by using Brute Force (backtracking) algorithm.
-        :return: True if the puzzle was solved, False otherwise
+        :return: True and the time if the puzzle was solved, False and -1
+                 otherwise
         """
         # Check if the initial board is valid
         if self.is_valid():
