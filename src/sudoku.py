@@ -120,6 +120,7 @@ class Board(object):
     def solve(self):
         """
         Solve a 9x9 Sudoku Puzzle by using Brute Force (backtracking) algorithm.
+        You may verify the solution at https://www.sudoku-solutions.com/
         :return: True and the time if the puzzle was solved, False and -1
                  otherwise
         """
