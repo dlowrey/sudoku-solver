@@ -1,3 +1,5 @@
+from time import time
+
 class Cell(object):
     """
     Representation of an individual Cell inside of a Sudoku Board
@@ -117,6 +119,7 @@ class Board(object):
         """
         # Check if the initial board is valid
         if self.is_valid():
+            start = time()
             # Initialize a list that will hold all of the cells that we have
             # attempted to place a number in. This list will be used to
             # backtrack and try a different number in a cell.
@@ -131,7 +134,7 @@ class Board(object):
 
                         # Check that this cell is not exhausted (i.e. all
                         # numbers have been tried) or that it does not already
-                        # have a list of possible numbers
+                        # have a list of possible numbers.
                         if not cell.exhausted and not cell.possible_numbers:
                             # Find and set the possible numbers,
                             # because this is a set(), it may be
@@ -157,7 +160,7 @@ class Board(object):
 
                         # Otherwise there are no possible solutions
                         else:
-                            return False
+                            return False, -1
 
                     # If we are not going to backtrack, simply
                     # advance to the next column
@@ -169,12 +172,15 @@ class Board(object):
                 row += 1
 
             # All cells have been fit successfully
-            return True
+            end = time()  # finishing time
+            return True, end - start
 
         # The initial puzzle was not valid
         else:
-            return False
+            return False, -1
 
+    def clear(self):
+        [self.board[r][c].reset() for c in range(9) for r in range(9)]
 
     def __str__(self):
         """Return a pretty version of the board object for printing"""

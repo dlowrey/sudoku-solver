@@ -1,9 +1,5 @@
-from src.Sudoku import Board
-
+from src.sudoku import Board
+from src.ui import SudokuUI
 board = Board()
-print(str(board))
-
-board.solve()
-
-print(str(board))
-print(board.is_valid())
+ui = SudokuUI(board)
+ui.mainloop()
