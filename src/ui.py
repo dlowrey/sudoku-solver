@@ -1,6 +1,5 @@
 from tkinter import Tk, Canvas, Frame, Button, BOTH, TOP, BOTTOM
 
-BOARDS = ['debug', 'n00b', 'l33t', 'error']  # Available sudoku boards
 MARGIN = 20  # Pixels around the board
 SIDE = 50  # Width of every board cell.
 WIDTH = HEIGHT = MARGIN * 2 + SIDE * 9  # Width and height of the whole board
@@ -64,6 +63,7 @@ class SudokuUI(Frame):
 
     def __draw_puzzle(self):
         """Fill in the existing puzzle details"""
+        self.canvas.delete("result")  # remove time stamp from view
         self.canvas.delete("numbers")
         for i in range(9):
             for j in range(9):
@@ -90,24 +90,24 @@ class SudokuUI(Frame):
             )
 
     def __draw_result(self, success, time):
-        if success:
-            # create a oval (which will be a circle)
-            x0 = y0 = MARGIN + SIDE * 2
-            x1 = y1 = MARGIN + SIDE * 7
-            self.canvas.create_oval(
-                x0, y0, x1, y1,
-                tags="time", fill="dark gray", outline="black"
-            )
-            # create text
-            x = y = MARGIN + 4 * SIDE + SIDE / 2
-            self.canvas.create_text(
-                x, y,
-                text="{0:.4f}s".format(time), tags="time",
-                fill="white", font=("Arial", 32)
-            )
+        # create a oval (which will be a circle)
+        x0 = y0 = MARGIN + SIDE * 2
+        x1 = y1 = MARGIN + SIDE * 7
+        self.canvas.create_oval(
+            x0, y0, x1, y1,
+            tags="result", fill="dark gray", outline="black"
+        )
+        # create text
+        x = y = MARGIN + 4 * SIDE + SIDE / 2
+        text = "{0:.4f}s".format(time) if success else "Invalid Board"
+        self.canvas.create_text(
+            x, y,
+            text=text, tags="result",
+            fill="white", font=("Arial", 28)
+        )
 
     def __cell_clicked(self, event):
-        self.canvas.delete("time")  # remove time stamp from view
+        self.canvas.delete("result")  # remove time stamp from view
         x, y = event.x, event.y
         if MARGIN < x < WIDTH - MARGIN and MARGIN < y < HEIGHT - MARGIN:
             self.canvas.focus_set()
@@ -126,7 +126,6 @@ class SudokuUI(Frame):
         self.__draw_cursor()
 
     def __key_pressed(self, event):
-        self.canvas.delete("time")    # remove time stamp from view
         if self.row >= 0 and self.col >= 0:
             if event.keysym == "Up":
                 self.row = abs(((self.row + 8) % 9))

@@ -1,9 +1,11 @@
 from time import time
 
+
 class Cell(object):
     """
     Representation of an individual Cell inside of a Sudoku Board
     """
+
     def __init__(self, row, column):
         self.row = row  # the row that this cell is in
         self.column = column  # the column that this cell is in
@@ -59,7 +61,10 @@ class Board(object):
         :param numbers: the list of numbers to check
         :return: boolean True if valid, False otherwise
         """
-        return set(numbers) == set(range(1, 10)) or set(numbers) == {0}
+        numbers = list(filter(lambda n: n != 0, numbers))  # remove all 0s
+        correct_numbers = set(numbers).issubset(set(range(1, 10)))
+        no_duplicates = len(numbers) == len(set(numbers))
+        return correct_numbers and no_duplicates
 
     def __get_row(self, row):
         """Get a row of numbers for the specified row"""
