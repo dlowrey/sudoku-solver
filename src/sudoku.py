@@ -19,19 +19,29 @@ class Cell(object):
         and update the exhausted flag.
         """
         self.number = self.possible_numbers.pop()
-        self.exhausted = not self.possible_numbers
+
+        # Have all numbers been tried?
+        if len(self.possible_numbers) < 1:
+            self.exhausted = True
 
     def set_possible_numbers(self, numbers):
         """Set the possible numbers of this cell"""
         self.possible_numbers = numbers
-        self.exhausted = not numbers
+
+        # Have all numbers been tried, resulting in
+        # no more possible numbers for this cell?
+        if len(numbers) == 0:
+            self.exhausted = True
 
     def reset_number(self):
         """Reset the number only on this cell (for backtracking)"""
         self.number = 0
 
     def reset(self):
-        """Reset this cell completely (used if no possible numbers are found)"""
+        """
+            Reset this cell completely, except for its position
+            (used if no possible numbers are found)
+        """
         self.exhausted = False
         self.possible_numbers = set()
         self.number = 0
@@ -45,36 +55,62 @@ class Board(object):
 
     def __init__(self):
         # Initialize a 9x9 matrix of Cell objects
-        self.board = [[Cell(r, c) for c in range(9)] for r in range(9)]
+        self.board = []
+        for i in range(9):
+            row = []
+            for j in range(9):
+                row.append((Cell(i,j)))
+            self.board.append(row)
 
     @staticmethod
-    def __difference(numbers):
+    def difference(numbers):
         """Get the remaining usable Sudoku numbers given a list of numbers"""
         # Note that sets are unordered
-        return set(range(1, 10)) - set(numbers)
+        sudoku_numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+        diff = sudoku_numbers - set(numbers)
+        return diff
 
     @staticmethod
-    def __validate(numbers):
+    def validate(numbers):
         """
         Discover if a section on the board is considered valid, i.e.
         follows the rules of Sudoku
         :param numbers: the list of numbers to check
         :return: boolean True if valid, False otherwise
         """
-        numbers = list(filter(lambda n: n != 0, numbers))  # remove all 0s
-        correct_numbers = set(numbers).issubset(set(range(1, 10)))
-        no_duplicates = len(numbers) == len(set(numbers))
-        return correct_numbers and no_duplicates
+        # remove all 0s
+        sudoku_numbers = []
+        for num in numbers:
+            if num != 0:
+                sudoku_numbers.append(num)
 
-    def __get_row(self, row):
+        # check if only correct numbers are left (1-9)
+        check_correct = set(sudoku_numbers).issubset({1, 2, 3, 4, 5, 6, 7, 8, 9})
+        # check that there are no duplicate numbers
+        check_duplicates = len(sudoku_numbers) == len(set(sudoku_numbers))
+        # everything is valid if the above two are true
+        valid = check_correct and check_duplicates
+        return valid
+
+    def get_row(self, row):
         """Get a row of numbers for the specified row"""
-        return [cell.number for cell in self.board[row]]
+        r = self.board[row]
+        row_numbers = []
+        for cell in r:
+            cell_num = cell.number
+            row_numbers.append(cell_num)
+        return row_numbers
 
-    def __get_column(self, column):
+    def get_column(self, column):
         """Get a column of numbers for the specified column"""
-        return [self.board[row][column].number for row in range(9)]
+        column_numbers = []
+        for row in range(9):
+            col = self.board[row][column]
+            num = col.number
+            column_numbers.append(num)
+        return column_numbers
 
-    def __get_square(self, row, column):
+    def get_square(self, row, column):
         """
         Get a 3x3 square of cells in the board that the specified cell
         belongs to.
@@ -82,11 +118,15 @@ class Board(object):
         :param column: the column of the designated cell
         :return: a 3x3 matrix
         """
-        return [
-            self.board[r][c].number
-            for r in range(row - (row % 3), row + (3 - (row % 3)))
-            for c in range(column - (column % 3), column + (3 - (column % 3)))
-        ]
+        square = []
+
+        for r in range(row - (row % 3), row + (3 - (row % 3))):
+            for c in range(column - (column % 3), column + (3 - (column % 3))):
+                cell = self.board[r][c]
+                num = cell.number
+                square.append(num)
+
+        return square
 
     def is_valid(self):
         """
@@ -94,16 +134,26 @@ class Board(object):
         column, and square against Sudoku rules.
         :return: boolean True if valid, False otherwise
         """
-        columns = [self.__validate(self.__get_column(column))
-                   for column in range(9)]
-        rows = [self.__validate(self.__get_row(r))
-                for r in range(9)]
-        squares = [
-            self.__validate(self.__get_square(row, column))
-            for row in range(0, 9, 3)
-            for column in range(0, 9, 3)
-        ]
-        return all(columns + rows + squares)
+        column_valid = True
+        for r in range(9):
+            column = self.get_column(r)
+            valid = self.validate(column)
+            column_valid = column_valid and valid
+
+        row_valid = True
+        for r in range(9):
+            row = self.get_row(r)
+            valid = self.validate(row)
+            row_valid = row_valid and valid
+
+        square_valid = True
+        for r in range(0, 9, 3):
+            for c in range(0, 9, 3):
+                square = self.get_square(r, c)
+                valid = self.validate(square)
+                square_valid = square_valid and valid
+
+        return column_valid and row_valid and square_valid
 
     def possible_numbers(self, r, c):
         """
@@ -112,10 +162,10 @@ class Board(object):
         :param c: column of the specified cell
         :return: a set of possible valid numbers
         """
-        row = self.__get_row(r)
-        column = self.__get_column(c)
-        square = self.__get_square(r, c)
-        return self.__difference(row + column + square)
+        row = self.get_row(r)
+        column = self.get_column(c)
+        square = self.get_square(r, c)
+        return self.difference(row + column + square)
 
     def solve(self):
         """
@@ -193,6 +243,6 @@ class Board(object):
         """Return a pretty version of the board object for printing"""
         pretty = ""
         for i in range(9):
-            pretty += str(self.__get_row(i))
+            pretty += str(self.get_row(i))
             pretty += "\n"
         return pretty
