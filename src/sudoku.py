@@ -21,7 +21,7 @@ class Cell(object):
         self.number = self.possible_numbers.pop()
 
         # Have all numbers been tried?
-        if len(self.possible_numbers) < 1:
+        if len(self.possible_numbers) == 0:
             self.exhausted = True
 
     def set_possible_numbers(self, numbers):

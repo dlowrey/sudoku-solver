@@ -22,9 +22,9 @@ passed = my_cell.number == 0
 print("reset number success: {}".format(passed))
 
 # Test exhaustion flag
-while my_cell.exhausted:
+while not my_cell.exhausted:
     my_cell.try_new_number()
-passed = not my_cell.exhausted
+passed = my_cell.exhausted
 print("cell exhaustion success: {}".format(passed))
 
 # Test complete reset of cell (except position)
