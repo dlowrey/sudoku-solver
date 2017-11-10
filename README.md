@@ -1,4 +1,10 @@
 # SudokuSolver
+
+The purpose of this branch is to take some of the more *pythonic* stuff (i.e. list comprehension) out of
+the code base so that new coders can understand it knowing only the basics.
+
+This branch is what is taught in the Software Development Club Python Lectures.
+
 A 9x9 Sudoku Puzzle solver using Python 3 and Tkinter
 User Interface based off of [NewCoder Tutorial](http://newcoder.io/gui/part-3/)
 
