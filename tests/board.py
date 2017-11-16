@@ -26,3 +26,6 @@ cell_2.number = 1
 valid = board.is_valid()
 passed = not valid
 print("validate invalid board success: {}".format(passed))
+
+# Test printing out the board
+print(str(board))
