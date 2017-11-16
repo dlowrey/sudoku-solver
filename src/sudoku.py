@@ -59,7 +59,7 @@ class Board(object):
         for i in range(9):
             row = []
             for j in range(9):
-                row.append((Cell(i,j)))
+                row.append((Cell(i, j)))
             self.board.append(row)
 
     @staticmethod

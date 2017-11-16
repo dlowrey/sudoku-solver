@@ -27,5 +27,15 @@ valid = board.is_valid()
 passed = not valid
 print("validate invalid board success: {}".format(passed))
 
+# Test clearing the board
+board.clear()
+passed = True
+for r in range(9):
+    for c in range(9):
+        if board.board[r][c].number != 0:
+            passed = False
+print("reset the entire board success: {}".format(passed))
+
 # Test printing out the board
 print(str(board))
+
