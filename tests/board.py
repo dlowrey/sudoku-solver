@@ -36,6 +36,11 @@ for r in range(9):
             passed = False
 print("reset the entire board success: {}".format(passed))
 
+# Test solving the board
+board.solve()
+passed = board.is_valid()
+print("correctly solved board success: {}".format(passed))
+
 # Test printing out the board
 print(str(board))
 
