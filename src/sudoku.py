@@ -59,7 +59,7 @@ class Board(object):
         for i in range(9):
             row = []
             for j in range(9):
-                row.append((Cell(i,j)))
+                row.append((Cell(i, j)))
             self.board.append(row)
 
     @staticmethod
@@ -237,7 +237,10 @@ class Board(object):
             return False, -1
 
     def clear(self):
-        [self.board[r][c].reset() for c in range(9) for r in range(9)]
+        """Reset all cells on the board"""
+        for r in range(9):
+            for c in range(9):
+                self.board[r][c].reset()
 
     def __str__(self):
         """Return a pretty version of the board object for printing"""
