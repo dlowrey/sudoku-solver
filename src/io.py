@@ -31,8 +31,8 @@ def write(board):
     try:
         # create file name
         name = DATA_DIR + "saved-board"
-        # count how many files are in the data folder
-        number = len([f for f in listdir('../data/') if path.isfile(f)])
+        # count how many entries are in the data folder
+        number = len(listdir(DATA_DIR))
         name += str(number) + ".txt"
         # create file
         file = open(name, 'w')
@@ -41,8 +41,29 @@ def write(board):
             for c in range(9):
                 cell = board.board[r][c]
                 number = cell.number
-                out += number
+                out += str(number)
         file.write(out)
         file.close()
     except FileNotFoundError as e:
         print(e)
+
+
+def load(file_path):
+    """
+    Load a sudoku board from a file path given
+    :param file_path: the absolute path of the file to load 
+    :return: a matrix representing a sudoku board 
+    """
+    board_list = []
+    try:
+        file = open(file_path, 'r')
+        board_one_line = file.read()
+        for n in board_one_line:
+            if not n.isdigit():
+                n = 0
+            board_list.append(n)
+        file.close()
+    except FileNotFoundError as e:
+        print(e)
+
+    return board_list
