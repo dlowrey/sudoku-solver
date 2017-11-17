@@ -51,6 +51,10 @@ def write(board):
 def load(file_path):
     """
     Load a sudoku board from a file path given
+    
+    Formatting: each character is its integer representation or the integer
+                0 if the character is not a digit
+                
     :param file_path: the absolute path of the file to load 
     :return: a matrix representing a sudoku board 
     """
@@ -58,6 +62,7 @@ def load(file_path):
     try:
         file = open(file_path, 'r')
         board_one_line = file.read()
+        # convert each character to integer representation
         for n in board_one_line:
             if not n.isdigit():
                 n = 0
