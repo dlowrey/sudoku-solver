@@ -135,8 +135,8 @@ class Board(object):
         :return: boolean True if valid, False otherwise
         """
         column_valid = True
-        for r in range(9):
-            column = self.get_column(r)
+        for c in range(9):
+            column = self.get_column(c)
             valid = self.validate(column)
             column_valid = column_valid and valid
 
