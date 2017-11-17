@@ -28,6 +28,7 @@ def write(board):
     :param board: the board to write to a text file
     """
     ensure_data_dir()
+    path = ""
     try:
         # create file name
         name = DATA_DIR + "saved-board"
@@ -43,9 +44,11 @@ def write(board):
                 number = cell.number
                 out += str(number)
         file.write(out)
+        path = name
         file.close()
     except FileNotFoundError as e:
         print(e)
+    return path
 
 
 def load(file_path):
