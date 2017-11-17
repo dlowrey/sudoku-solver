@@ -112,6 +112,22 @@ class SudokuUI(Frame):
             fill="white", font=("Arial", 28)
         )
 
+    def __draw_message(self, msg):
+        # create a oval (which will be a circle)
+        x0 = y0 = MARGIN + SIDE * 2
+        x1 = y1 = MARGIN + SIDE * 7
+        self.canvas.create_oval(
+            x0, y0, x1, y1,
+            tags="result", fill="white", outline="blue"
+        )
+        # create text
+        x = y = MARGIN + 4 * SIDE + SIDE / 2
+        self.canvas.create_text(
+            x, y,
+            text=msg, tags="result",
+            fill="black", font=("Arial", 12)
+        )
+
     def __cell_clicked(self, event):
         self.canvas.delete("result")  # remove time stamp from view
         x, y = event.x, event.y
@@ -176,4 +192,5 @@ class SudokuUI(Frame):
         self.__draw_result(success, time)
 
     def __save(self):
-        io.write(self.sudoku)
+        f_path = io.write(self.sudoku)
+        self.__draw_message("Saved to\n{}".format(f_path))
