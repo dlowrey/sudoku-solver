@@ -67,6 +67,7 @@ class Board(object):
         """Get the remaining usable Sudoku numbers given a list of numbers"""
         # Note that sets are unordered
         sudoku_numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+        # set difference will provide us with numbers not yet used
         diff = sudoku_numbers - set(numbers)
         return diff
 
@@ -78,7 +79,9 @@ class Board(object):
         :param numbers: the list of numbers to check
         :return: boolean True if valid, False otherwise
         """
-        # remove all 0s
+        # remove all 0s from the list of numbers,
+        # we use 0s in the cells to represent "no number",
+        # so these 0s do not need to be evaluated
         sudoku_numbers = []
         for num in numbers:
             if num != 0:
@@ -86,7 +89,9 @@ class Board(object):
 
         # check if only correct numbers are left (1-9)
         check_correct = set(sudoku_numbers).issubset({1, 2, 3, 4, 5, 6, 7, 8, 9})
-        # check that there are no duplicate numbers
+        # check that there are no duplicate numbers by comparing the length
+        # of the original list to the length of the set made from the original
+        # list. Remember a set has no duplicate elements.
         check_duplicates = len(sudoku_numbers) == len(set(sudoku_numbers))
         # everything is valid if the above two are true
         valid = check_correct and check_duplicates
@@ -96,8 +101,8 @@ class Board(object):
         """Get a row of numbers for the specified row"""
         r = self.board[row]
         row_numbers = []
-        for cell in r:
-            cell_num = cell.number
+        for cell in r:  # for each cell in the row
+            cell_num = cell.number  # get the cell's number
             row_numbers.append(cell_num)
         return row_numbers
 
@@ -105,8 +110,8 @@ class Board(object):
         """Get a column of numbers for the specified column"""
         column_numbers = []
         for row in range(9):
-            col = self.board[row][column]
-            num = col.number
+            col = self.board[row][column]  # get the cell
+            num = col.number  # get the cell's number
             column_numbers.append(num)
         return column_numbers
 
@@ -119,13 +124,13 @@ class Board(object):
         :return: a 3x3 matrix
         """
         square = []
-
+        # the range in this for loop makes sure that the loop stays in
+        # the bounds of a square that the cell at row, column is in.
         for r in range(row - (row % 3), row + (3 - (row % 3))):
             for c in range(column - (column % 3), column + (3 - (column % 3))):
-                cell = self.board[r][c]
-                num = cell.number
+                cell = self.board[r][c]  # get the cell
+                num = cell.number  # get the cells number
                 square.append(num)
-
         return square
 
     def is_valid(self):
@@ -138,8 +143,8 @@ class Board(object):
         # Validate all columns
         column_valid = True
         for r in range(9):
-            column = self.get_column(r)
-            column_valid = self.validate(column)
+            column = self.get_column(r)  # get numbers in column
+            column_valid = self.validate(column)  # validate numbers
             if not column_valid:
                 # found invalid column, exit loop
                 break
@@ -147,8 +152,8 @@ class Board(object):
         # Validate all rows
         row_valid = True
         for r in range(9):
-            row = self.get_row(r)
-            row_valid = self.validate(row)
+            row = self.get_row(r)  # get numbers in row
+            row_valid = self.validate(row)  # validate numbers
             if not row_valid:
                 # found invalid row, exit loop
                 break
@@ -159,8 +164,8 @@ class Board(object):
         # 0-9 in increments of 3, i.e. [0, 3, 6]
         for r in range(0, 9, 3):
             for c in range(0, 9, 3):
-                square = self.get_square(r, c)
-                square_valid = self.validate(square)
+                square = self.get_square(r, c)  # get numbers in square
+                square_valid = self.validate(square)  # validate numbers
                 if not square_valid:
                     # found invalid square, exit loop
                     break
@@ -178,6 +183,8 @@ class Board(object):
         row = self.get_row(r)
         column = self.get_column(c)
         square = self.get_square(r, c)
+        # return the numbers that have not been used in the row, column, or
+        # square that the cell is in
         return self.difference(row + column + square)
 
     def solve(self):
@@ -189,6 +196,7 @@ class Board(object):
         """
         # Check if the initial board is valid
         if self.is_valid():
+            # timer to time our algorithm
             start = time()
             # Initialize a list that will hold all of the cells that we have
             # attempted to place a number in. This list will be used to
@@ -230,6 +238,7 @@ class Board(object):
 
                         # Otherwise there are no possible solutions
                         else:
+                            # return False (not solved) and -1 for the time
                             return False, -1
 
                     # If we are not going to backtrack, simply
@@ -243,10 +252,12 @@ class Board(object):
 
             # All cells have been fit successfully
             end = time()  # finishing time
+            # return True (solved) and the time
             return True, end - start
 
         # The initial puzzle was not valid
         else:
+            # return False (not solved) and -1 for the time
             return False, -1
 
     def clear(self):
