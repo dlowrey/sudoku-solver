@@ -92,6 +92,13 @@ class Board(object):
         """
         Validate the entire board by checking each individual row,
         column, and square against Sudoku rules.
+        
+        NOTE: this method could be made more efficient by expanding
+              each list comp out into it's respective for loop and 
+              breaking out of the loop as soon as an invalid row, column,
+              or square is found. However, because this is only a commercial
+              project I will leave the list comprehension in.
+              
         :return: boolean True if valid, False otherwise
         """
         columns = [self.__validate(self.__get_column(column))
