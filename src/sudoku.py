@@ -134,25 +134,38 @@ class Board(object):
         column, and square against Sudoku rules.
         :return: boolean True if valid, False otherwise
         """
+
+        # Validate all columns
         column_valid = True
         for r in range(9):
             column = self.get_column(r)
-            valid = self.validate(column)
-            column_valid = column_valid and valid
+            column_valid = self.validate(column)
+            if not column_valid:
+                # found invalid column, exit loop
+                break
 
+        # Validate all rows
         row_valid = True
         for r in range(9):
             row = self.get_row(r)
-            valid = self.validate(row)
-            row_valid = row_valid and valid
+            row_valid = self.validate(row)
+            if not row_valid:
+                # found invalid row, exit loop
+                break
 
+        # Validate all 3x3 squares
         square_valid = True
+        # range(0,9,3) steps through the numbers
+        # 0-9 in increments of 3, i.e. [0, 3, 6]
         for r in range(0, 9, 3):
             for c in range(0, 9, 3):
                 square = self.get_square(r, c)
-                valid = self.validate(square)
-                square_valid = square_valid and valid
+                square_valid = self.validate(square)
+                if not square_valid:
+                    # found invalid square, exit loop
+                    break
 
+        # if all are valid, board is valid
         return column_valid and row_valid and square_valid
 
     def possible_numbers(self, r, c):
