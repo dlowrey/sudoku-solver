@@ -13,7 +13,10 @@ Other branch `simple` exist for different reasons but are the same project.
 
 ## Algorithm ##
 
-The algorithm used is a simple brute force backtracking algorithm. Its
+[Backtracking](https://en.wikipedia.org/wiki/Sudoku_solving_algorithms#Backtracking)
+
+The algorithm used is a brute force backtracking algorithm with a time complexity of O(n<sup>m</sup>) where *n* is 
+the number of possibilities for each cell and *m* is the number of blank cells. Its
 pseudo code is shown below.
 
 ````Python
