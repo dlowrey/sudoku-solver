@@ -1,7 +1,8 @@
 # SudokuSolver
 
 The purpose of this branch is to take some of the more *pythonic* stuff (i.e. list comprehension) out of
-the code base so that new coders can understand it knowing only the basics.
+the code base so that new coders can understand it knowing only the basics. It also has some very
+simple unit-test like tests for the `Board` and `Cell` classes.
 
 This branch is what is taught in the Software Development Club Python Lectures.
 
@@ -11,7 +12,8 @@ User Interface based off of [NewCoder Tutorial](http://newcoder.io/gui/part-3/)
 ## To Run ##
 1. Download Python 3
 2. Clone this repository
-3. Run `src/main.py`
+3. Navigate to `SudokuSolver/`
+3. Run `python main.py`
 
 
 ## Algorithm ##
