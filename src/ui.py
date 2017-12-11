@@ -1,5 +1,4 @@
 from tkinter import Tk, Canvas, Frame, Button, BOTH, TOP, BOTTOM
-from src import io
 
 MARGIN = 20  # Pixels around the board
 SIDE = 50  # Width of every board cell.
@@ -24,10 +23,6 @@ class SudokuUI(Frame):
         """Set up all widgets on board"""
         self.parent.title("Sudoku Solver")
         self.pack(fill=BOTH)
-        save_button = Button(self,
-                              text="Save",
-                              command=self.__save)
-        save_button.pack(fill=BOTH, side=BOTTOM)
 
         self.canvas = Canvas(self,
                              width=WIDTH,
@@ -190,7 +185,3 @@ class SudokuUI(Frame):
         success, time = self.sudoku.solve()
         self.__draw_puzzle()
         self.__draw_result(success, time)
-
-    def __save(self):
-        f_path = io.write(self.sudoku)
-        self.__draw_message("Saved to\n{}".format(f_path))
