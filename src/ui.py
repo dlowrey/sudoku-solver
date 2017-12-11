@@ -184,4 +184,4 @@ class SudokuUI(Frame):
         success, time = self.sudoku.solve()
         self.__draw_puzzle()
         self.__draw_result(success, time)
-        
+
