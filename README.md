@@ -8,7 +8,8 @@ Other branches `old` and `simple` exist for different reasons but are the same p
 ## To Run ##
 1. Download Python 3
 2. Clone this repository
-3. Run `src/main.py`
+3. Navigate to `SudokuSolver/`
+4. Run `python main.py`
 
 
 ## Algorithm ##
