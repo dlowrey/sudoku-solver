@@ -19,7 +19,7 @@ The algorithm used is a brute force backtracking algorithm with a time complexit
 the number of possibilities for each cell and *m* is the number of blank cells. Its
 pseudo code is shown below.
 
-````Python
+````Text
     attempted = []
     for every cell in the board:
         if the cell does not have a number:
